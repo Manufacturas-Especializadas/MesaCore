@@ -1,12 +1,16 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MesaCore.Services;
+using MesaCore.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddDbContext<MesaCoreContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 
 //Services
