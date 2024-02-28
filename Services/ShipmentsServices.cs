@@ -42,11 +42,25 @@ namespace MesaCore.Services
                     var shipments = new Shipment
                     {
                         Packer = Convert.ToInt32(row["EMPACADOR"]),
+                        DataNo = Convert.ToInt32(row["DATA No"]),
                         Date = Convert.ToDateTime(row["DATE"]),
                         ShopOrder = row["SHOP ORDER"].ToString(),
                         PartNumber = row["PART NUMBER"].ToString(),
                         Qty = Convert.ToInt32(row["QTY"])
                     };
+                    string tiempoStr = row["TIME"].ToString();
+
+                    // Intentar convertir la cadena a TimeSpan
+                    if (TimeSpan.TryParse(tiempoStr, out TimeSpan tiempo))
+                    {
+                        shipments.Tiempo = tiempo; 
+                    }
+                    else
+                    {
+                        // Si la conversión falla, manejar el error o asignar un valor predeterminado
+                        Debug.WriteLine($"No se pudo convertir '{tiempoStr}' a TimeSpan");
+                        shipments.Tiempo = TimeSpan.Zero; 
+                    }
                     _context.Shipments.Add(shipments);
                 }
                 await _context.SaveChangesAsync();

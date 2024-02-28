@@ -9,9 +9,13 @@ public partial class Shipment
 {
     public int Id { get; set; }
 
+    public int? DataNo { get; set; }
+
     public int? Packer { get; set; }
 
     public DateTime? Date { get; set; }
+
+    public TimeSpan? Tiempo { get; set; }
 
     public string ShopOrder { get; set; }
 

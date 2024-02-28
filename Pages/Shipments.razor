@@ -15,10 +15,15 @@
 
 <InputFile OnChange="@ImportCsvFile"/>
 
-<RadzenDataGrid TItem="Shipment" Data="shipments" AllowPaging="true" PageSize="10" FilterMode="FilterMode.Advanced">
+<RadzenDataGrid TItem="Shipment" Data="@shipments" AllowPaging="true" PageSize="10" FilterMode="FilterMode.Advanced" AllowFiltering="true">
     <Columns>
-        <RadzenDataGridColumn TItem="Shipment" Property="Packer" Title="Empacador" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="Shipment" Property="Date" Title="Fecha" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="Shipment" Property="Packer" Title="Empacador" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="Shipment" Property="Date" Title="Fecha" TextAlign="TextAlign.Center">
+            <Template>
+                <span>@context.Date.Value.ToShortDateString()</span>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Shipment" Property="Tiempo" Title="Hora" TextAlign="TextAlign.Center"/>
         <RadzenDataGridColumn TItem="Shipment" Property="ShopOrder" Title="Shop Order" TextAlign="TextAlign.Center"/>
         <RadzenDataGridColumn TItem="Shipment" Property="PartNumber" Title="Part Number" TextAlign="TextAlign.Center"/>
         <RadzenDataGridColumn TItem="Shipment" Property="Qty" Title="Qty" TextAlign="TextAlign.Center"/>

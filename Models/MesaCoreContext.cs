@@ -8,10 +8,6 @@ namespace MesaCore.Models;
 
 public partial class MesaCoreContext : DbContext
 {
-    public MesaCoreContext()
-    {
-    }
-
     public MesaCoreContext(DbContextOptions<MesaCoreContext> options)
         : base(options)
     {
@@ -19,19 +15,15 @@ public partial class MesaCoreContext : DbContext
 
     public virtual DbSet<Shipment> Shipments { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Data Source=WIN-PVPAQO25113;Initial Catalog=MesaCore;User ID=MESINNO03;Password=M3s@.dm1n!");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Shipment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SHIPMENT__3214EC0717A39D56");
+            entity.HasKey(e => e.Id).HasName("PK__SHIPMENT__3214EC074C4C865E");
 
             entity.ToTable("SHIPMENTS");
 
-            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Date).HasColumnType("date");
             entity.Property(e => e.PartNumber).IsUnicode(false);
             entity.Property(e => e.ShopOrder).IsUnicode(false);
         });
