@@ -1,13 +1,82 @@
 ﻿@page "/"
 
+@using CsvHelper;
+@using CsvHelper.Configuration;
 @using MesaCore.Services;
+@using MesaCore.Models;
+@using Microsoft.EntityFrameworkCore
+@using System.Globalization
+@using System.Data
+@using System.Diagnostics
 
 @inject ShipmentsServices services;
 
 <PageTitle>Embarques</PageTitle>
 
-<h3>Shipments</h3>
+<InputFile OnChange="@ImportCsvFile"/>
+
+<RadzenDataGrid TItem="Shipment" Data="shipments" AllowPaging="true" PageSize="10" FilterMode="FilterMode.Advanced">
+    <Columns>
+        <RadzenDataGridColumn TItem="Shipment" Property="Packer" Title="Empacador" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="Shipment" Property="Date" Title="Fecha" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="Shipment" Property="ShopOrder" Title="Shop Order" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="Shipment" Property="PartNumber" Title="Part Number" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="Shipment" Property="Qty" Title="Qty" TextAlign="TextAlign.Center"/>
+    </Columns>
+</RadzenDataGrid>
 
 @code {
+    List<Shipment> shipments = new List<Shipment>();
+
+    DataTable dt = new DataTable();
+
+    protected override async Task OnInitializedAsync()
+    {
+        shipments = await services.GetShipments();
+    }
+
+    private async Task ImportCsvFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var fileStream = e.File.OpenReadStream();
+
+            var ms = new MemoryStream();
+            await fileStream.CopyToAsync(ms);
+            fileStream.Close();
+            ms.Position = 0;
+
+
+            using (var reader = new StreamReader(ms))
+            using (var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture)))
+            {
+                csv.Read();
+                csv.ReadHeader();
+
+                foreach(var header in csv.HeaderRecord)
+                {
+                    dt.Columns.Add(header);
+                }
+
+                while(await csv.ReadAsync())
+                {
+                    var row = dt.NewRow();
+                    for(int i = 0; i < csv.HeaderRecord.Length; i++)
+                    {
+                        row[i] = csv.GetField(i);
+                    }
+                    dt.Rows.Add(row);
+                }
+
+                await services.InserDataIntoDatabase(dt);
+            }
+        }
+        catch(Exception ex)
+        {
+            Debug.WriteLine($"Error al importar el archivo: {ex.Message}");
+        }
+    }
+
+
 
 }
