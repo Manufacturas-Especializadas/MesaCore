@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Components.Web;
 using MesaCore.Services;
 using MesaCore.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +14,13 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddDbContext<MesaCoreContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    })
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();
 
 //Services
 builder.Services.AddScoped<ShipmentsServices>();
