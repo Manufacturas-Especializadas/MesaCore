@@ -13,6 +13,10 @@
 
 <PageTitle>Embarques</PageTitle>
 
+<Alert @ref="alertRef" Color="Color.Success" Visible="@showAlert" Dismisable="true">
+    Archivo cargado correctamente
+</Alert>
+
 <InputFile OnChange="@ImportCsvFile"/>
 
 <RadzenDataGrid TItem="Shipment" Data="@shipments" AllowPaging="true" PageSize="10" FilterMode="FilterMode.Advanced" AllowFiltering="true">
@@ -34,6 +38,9 @@
     List<Shipment> shipments = new List<Shipment>();
 
     DataTable dt = new DataTable();
+
+    bool showAlert = false;
+    Alert alertRef;
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,6 +81,11 @@
                 }
 
                 await services.InserDataIntoDatabase(dt);
+
+                showAlert = true;
+                StateHasChanged();
+
+                await Task.Delay(2000);
             }
         }
         catch(Exception ex)
@@ -81,7 +93,4 @@
             Debug.WriteLine($"Error al importar el archivo: {ex.Message}");
         }
     }
-
-
-
 }
