@@ -17,7 +17,7 @@
     Archivo cargado correctamente
 </Alert>
 
-<InputFile OnChange="@ImportCsvFile"/>
+<InputFile OnChange="@ImportCsvFile" class="form-control mb-2"/>
 
 <RadzenDataGrid TItem="Shipment" Data="@shipments" AllowPaging="true" PageSize="10" FilterMode="FilterMode.Advanced" AllowFiltering="true">
     <Columns>
