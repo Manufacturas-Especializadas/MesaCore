@@ -3,6 +3,7 @@ using CsvHelper.Configuration;
 using ExcelDataReader;
 using MesaCore.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
@@ -22,9 +23,16 @@ namespace MesaCore.Services
             _context = context;
         }
 
-        public async Task<List<Shipment>> GetShipments()
+        //public async Task<List<Shipment>> GetShipments()
+        //{
+        //    return _context.Shipments.ToList();
+        //}
+
+        public List<Shipment> GetShipments()
         {
-            return _context.Shipments.ToList();
+            var ShipmetsList = _context.Shipments.FromSqlRaw<Shipment>("Sp_GetShipments").ToList();
+
+            return ShipmetsList;
         }
 
         public async Task InserDataIntoDatabase(DataTable dt)
