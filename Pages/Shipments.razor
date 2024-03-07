@@ -42,9 +42,9 @@
     bool showAlert = false;
     Alert alertRef;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        shipments = await services.GetShipments();
+        shipments = services.GetShipments();
     }
 
     private async Task ImportCsvFile(InputFileChangeEventArgs e)
