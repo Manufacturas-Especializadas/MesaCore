@@ -19,7 +19,7 @@ public partial class MesaCoreContext : DbContext
     {
         modelBuilder.Entity<Shipment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SHIPMENT__3214EC074C4C865E");
+            entity.HasKey(e => e.Id).HasName("PK_Shimpents");
 
             entity.ToTable("SHIPMENTS");
 
@@ -28,6 +28,7 @@ public partial class MesaCoreContext : DbContext
             entity.Property(e => e.ShopOrder).IsUnicode(false);
         });
 
+        OnModelCreatingGeneratedProcedures(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 
