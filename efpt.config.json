@@ -18,6 +18,10 @@
       {
          "Name": "[dbo].[SHIPMENTS]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Sp_GetShipments]",
+         "ObjectType": 1
       }
    ],
    "UiHint": "win-pvpaqo25113.MesaCore.dbo",
