@@ -23,10 +23,26 @@ namespace MesaCore.Services
             _context = context;
         }
 
-        //public async Task<List<Shipment>> GetShipments()
-        //{
-        //    return _context.Shipments.ToList();
-        //}
+        public async Task<int> GetTotalPagesAsync(int PageSize)
+        {
+            var totalItems = await _context.Shipments.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
+            return totalPages;
+        }
+
+        public async Task<List<Shipment>> GetPagedShipments(int PageNumber, int PageSize)
+        {
+            try
+            {
+                var skip = PageNumber == 1 ? 0 : (PageNumber - 1) * PageSize;
+                return _context.Shipments.OrderBy(s => s.Id).Skip(skip).Take(PageSize).ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return new List<Shipment>();
+        }
 
         public List<Shipment> GetShipments()
         {
