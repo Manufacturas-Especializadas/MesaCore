@@ -18,22 +18,18 @@
     Archivo cargado correctamente
 </Alert>
 
-<InputFile OnChange="@ImportCsvFile" class="form-control mb-2"/>
+<div class="container mt-2">
+    <label class="label-file">
+        Subir archivo
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+        <InputFile OnChange="@ImportCsvFile" class="input-file" />
+    </label>
 
-@* <RadzenDataGrid TItem="Shipment" Data="@shipments" AllowPaging="true" PageSize="10" FilterMode="FilterMode.Advanced" AllowFiltering="true">
-    <Columns>
-        <RadzenDataGridColumn TItem="Shipment" Property="Packer" Title="Empacador" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="Shipment" Property="Date" Title="Fecha" TextAlign="TextAlign.Center">
-            <Template>
-                <span>@context.Date.Value.ToShortDateString()</span>
-            </Template>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="Shipment" Property="Tiempo" Title="Hora" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="Shipment" Property="ShopOrder" Title="Shop Order" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="Shipment" Property="PartNumber" Title="Part Number" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="Shipment" Property="Qty" Title="Qty" TextAlign="TextAlign.Center"/>
-    </Columns>
-</RadzenDataGrid> *@
+
+    <input type="number" placeholder="Empacador" class="input-number" />
+    <input type="text" placeholder="Shop Order" class="input-text" />
+    <input type="text" placeholder="Part Number" class="input-text" />
+</div>
 
 <div class="table-responsive">
     <table class="styled-table">
