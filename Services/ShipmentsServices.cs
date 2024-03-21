@@ -44,6 +44,28 @@ namespace MesaCore.Services
             return new List<Shipment>();
         }
 
+        public async Task<List<Shipment>> Filters(string shopOrder, string partNumber, int? packer)
+        {
+            var query = _context.Shipments.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(shopOrder))
+            {
+                query = query.Where(s => s.ShopOrder.Contains(shopOrder));
+            }
+
+            if (!string.IsNullOrWhiteSpace(partNumber))
+            {
+                query = query.Where(p => p.PartNumber.Contains(partNumber));
+            }
+
+            if (packer.HasValue)
+            {
+                query = query.Where(p => p.Packer == packer.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
         public List<Shipment> GetShipments()
         {
             var ShipmetsList = _context.Shipments.FromSqlRaw<Shipment>("Sp_GetShipments").ToList();
