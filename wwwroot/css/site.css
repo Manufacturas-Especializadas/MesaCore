@@ -156,7 +156,7 @@ a, .btn-link {
     width: fit-content;
     color: #1E40E9;
     background: rgba(0, 0, 0, 0);
-    padding: 0.85em 1.5em;
+    padding: 0.45em 1em;
     color: #1E40E9;
     border-radius: 2em;
     transition: 1s;
@@ -168,6 +168,24 @@ a, .btn-link {
     color: #fff;
 }
 
+.input-date {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    border-bottom: 0.2em solid #1E40E9;
+    background: rgba(30, 84, 233, 0.2);
+    border-radius: 0.2em 0.2em 0 0;
+    padding: 0.4em;
+    color: #1E40E9;
+}
+
+.input-date::placeholder {
+    color: #1E40E9;
+    font-size: small;
+}
+
 /* css button */
 
 .button-custom {
@@ -176,7 +194,7 @@ a, .btn-link {
     appearance: none;
     border: 0.2em solid #1E40E9;
     background: rgba(0, 0, 0, 0);
-    padding: 0.85em 1.5em;
+    padding: 0.45em 1em;
     color: #1E40E9;
     border-radius: 2em;
     transition: 1s;
@@ -195,7 +213,7 @@ a, .btn-link {
     appearance: none;
     border: 0.2em solid #E91E63;
     background: rgba(0, 0, 0, 0);
-    padding: 0.85em 1.5em;
+    padding: 0.45em 1em;
     color: #E91E63;
     border-radius: 2em;
     transition: 1s;
