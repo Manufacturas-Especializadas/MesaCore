@@ -44,7 +44,7 @@ namespace MesaCore.Services
             return new List<Shipment>();
         }
 
-        public async Task<List<Shipment>> Filters(string shopOrder, string partNumber, int? packer)
+        public async Task<List<Shipment>> Filters(string shopOrder, string partNumber, int? packer, DateTime? startDate)
         {
             var query = _context.Shipments.AsQueryable();
 
@@ -62,6 +62,13 @@ namespace MesaCore.Services
             {
                 query = query.Where(p => p.Packer == packer.Value);
             }
+
+            if (startDate.HasValue)
+            {
+                DateTime nextDay = startDate.Value.AddDays(1);
+                query = query.Where(d => d.Date.Value.Date >= startDate.Value.Date && d.Date.Value.Date < nextDay.Date);
+            }
+
 
             return await query.ToListAsync();
         }

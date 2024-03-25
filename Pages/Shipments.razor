@@ -28,8 +28,9 @@
     <input type="number" placeholder="Empacador" class="input-number" @bind="packerFilter" />
     <input type="text" placeholder="Shop Order" class="input-text" @bind="shopOrderFilter"/>
     <input type="text" placeholder="Part Number" class="input-text" @bind="partNumberFilter"/>
+    @* <input type="date" placeholder="Fecha" class="input-date" @bind="startDate"/> *@
 
-    <button type="button" class="button-custom" @onclick="filter">Filtrar</button>
+    <button type="button" class="button-custom" @onclick="filter" disabled="@FilterEmpty">Filtrar</button>
     <button type="button" class="button-custom-danger" @onclick="clean">Limpiar</button>
 </div>
 
@@ -80,11 +81,13 @@
 
     private int? packerFilter;
     private string shopOrderFilter = string.Empty;
-    private string partNumberFilter = string.Empty; 
+    private string partNumberFilter = string.Empty;
+    private DateTime? startDate = null;
+
+    bool FilterEmpty => string.IsNullOrWhiteSpace(shopOrderFilter) && string.IsNullOrWhiteSpace(partNumberFilter) && !packerFilter.HasValue;
 
     int TotalPages;
     List<Shipment> shipments;
-
 
     DataTable dt = new DataTable();
 
@@ -160,7 +163,7 @@
     private async Task filter()
     {
         currentPage = 1;
-        shipments = await services.Filters(shopOrderFilter, partNumberFilter, packerFilter);
+        shipments = await services.Filters(shopOrderFilter, partNumberFilter, packerFilter,startDate);
         totalPages = await services.GetTotalPagesAsync(PageSize);
     }
 
@@ -169,6 +172,7 @@
         shopOrderFilter = string.Empty;
         partNumberFilter = string.Empty;
         packerFilter = null;
+        startDate = null;
         currentPage = 1;
         totalPages = await services.GetTotalPagesAsync(PageSize);
         await LoadData();
